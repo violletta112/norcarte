@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium  # Utilisez st_folium au lieu de folium_static
-import io
+import os
 st.set_page_config(
     page_title="Emplacement Agences",
     page_icon="🌍",
