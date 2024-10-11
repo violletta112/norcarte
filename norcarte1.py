@@ -89,11 +89,7 @@ with col2:
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
-
-# Afficher la carte avec st_folium
-st_folium(m, width=600, height=300)
-
-# Gestion des wilayas (similaire à votre code d'origine)
+     # Gestion des wilayas (similaire à votre code d'origine)
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir != 'choisir une wilaya':
@@ -114,3 +110,7 @@ if choisir != 'choisir une wilaya':
         st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 else:
     st.write("Veuillez sélectionner une WILAYA pour afficher les données.")
+
+# Afficher la carte avec st_folium
+st_folium(m, width=600, height=300)
+
