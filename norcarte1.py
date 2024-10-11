@@ -48,7 +48,7 @@ with col1:
         df.columns = df.columns.str.strip()
 
         # Vérifiez les colonnes disponibles
-        st.write(df.columns)
+        #st.write(df.columns)
 
         # Ajouter des marqueurs jaunes à la carte Folium
         for index, row in df.iterrows():
