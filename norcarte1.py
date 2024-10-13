@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import folium
-import os
 from streamlit_folium import st_folium
 
 st.set_page_config(
@@ -17,8 +16,7 @@ col1, col2, col3 = st.columns([1, 2, 3])
 # Display the image in the central column
 with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
-
-st.title("Déploiement des agences de BNH")
+    st.title("Déploiement des agences de BNH")
 
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
@@ -27,10 +25,11 @@ WILAYAS = ['choisir une wilaya', 'ALGER', 'CONSTANTINE', 'ORAN', 'BISKRA', 'SÉT
 # Create a Folium map
 m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 
-# Display the map in the left column
-col1, col2 = st.columns([3, 2])
+# Display the options in the left column
+col1, col2 = st.columns([2, 3])  # Adjusted column widths for better layout
 
 with col1:
+    st.info('Sélectionner une année pour voir les agences existantes')
     choice = st.selectbox('Choisir une option:', options)
 
     if st.button('Refresh'):
@@ -47,8 +46,7 @@ with col1:
 
         # Clean column names
         df.columns = df.columns.str.strip()
-        
-with col2:
+
         # Add yellow markers to the Folium map
         for index, row in df.iterrows():
             folium.CircleMarker([row['latitude'], row['longitude']],
@@ -65,12 +63,11 @@ with col2:
         st.error(f"Erreur : La colonne {e} n'existe pas dans le DataFrame.")
     except Exception as e:
         st.error(f"Une erreur est survenue : {e}")
-    st_folium(m, width=600, height=300)
 
-# Right column for options based on director presence
-with col1:
+# Right column for displaying the map and options based on director presence
+with col2:
     choix = st.selectbox('Choisir une option:', optionn)
-
+    
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
@@ -97,76 +94,68 @@ if choisir != 'choisir une wilaya':
         st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                       """, unsafe_allow_html=True)
 
-    # File uploader for Excel file
+        # File uploader for Excel file
         uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
         if uploaded_file is not None:
-        # Load the uploaded Excel file
+            # Load the uploaded Excel file
             df_uploaded = pd.read_excel(uploaded_file)
             st.write(df_uploaded)  # Display first few rows of the DataFrame
         
-        try:
-            total1 = df_uploaded.iloc[:6, 2].sum()
-            total2 = df_uploaded.iloc[6:, 2].sum()
-            total_ht = df_uploaded.iloc[:, 1].sum()
-            st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-            st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-            total_total = total1 + total2           
-            st.write(f"Le taux total est : {total_total:.4f}")
-            st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-        except Exception as e:
-            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+            try:
+                total1 = df_uploaded.iloc[:6, 2].sum()
+                total2 = df_uploaded.iloc[6:, 2].sum()
+                total_ht = df_uploaded.iloc[:, 1].sum()
+                st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                total_total = total1 + total2           
+                st.write(f"Le taux total est : {total_total:.4f}")
+                st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+            except Exception as e:
+                st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
        
     else:
         if choisir == 'CONSTANTINE':
-            # File uploader for Excel file
-             uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+            uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
-             if uploaded_file is not None:
-             # Load the uploaded Excel file
-              df_uploaded = pd.read_excel(uploaded_file)
-              #st.write(df_uploaded)  # Display first few rows of the DataFrame
+            if uploaded_file is not None:
+                # Load the uploaded Excel file
+                df_uploaded = pd.read_excel(uploaded_file)
         
-             try:
-                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
-                 #st.write(df_wilaya)
+                try:
+                    total1 = df_uploaded.iloc[:6, 2].sum()
+                    total2 = df_uploaded.iloc[6:, 2].sum()
+                    total_ht = df_uploaded.iloc[:, 1].sum()
 
-                 total1 = df_uploaded.iloc[:6, 2].sum()
-                 total2 = df_uploaded.iloc[6:, 2].sum()
-                 total_ht = df_uploaded.iloc[:, 1].sum()
-
-                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-                 total_total = total1 + total2
-                 st.write(f"Le taux total est : {total_total:.4f}")
-                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-             except Exception as e:
-                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+                    st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                    st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                    total_total = total1 + total2
+                    st.write(f"Le taux total est : {total_total:.4f}")
+                    st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+                except Exception as e:
+                    st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 
         if choisir == 'ORAN':
-            # File uploader for Excel file
-             uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+            uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
-             if uploaded_file is not None:
-             # Load the uploaded Excel file
-              df_uploaded = pd.read_excel(uploaded_file)
-             st.write(df_uploaded)  # Display first few rows of the DataFrame
+            if uploaded_file is not None:
+                # Load the uploaded Excel file
+                df_uploaded = pd.read_excel(uploaded_file)
         
-             try:
-                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
-                 #st.write(df_wilaya)
+                try:
+                    total1 = df_uploaded.iloc[:6, 2].sum()
+                    total2 = df_uploaded.iloc[6:, 2].sum()
+                    total_ht = df_uploaded.iloc[:, 1].sum()
 
-                 total1 = df_uploaded.iloc[:6, 2].sum()
-                 total2 = df_uploaded.iloc[6:, 2].sum()
-                 total_ht = df_uploaded.iloc[:, 1].sum()
+                    st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                    st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                    total_total = total1 + total2
+                    st.write(f"Le taux total est : {total_total:.4f}")
+                    st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+                except Exception as e:
+                    st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 
-                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-                 total_total = total1 + total2
-                 st.write(f"Le taux total est : {total_total:.4f}")
-                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-             except Exception as e:
-                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
-
-# Afficher la carte avec st_folium
-#st_folium(m, width=600, height=300)
+# Display the map with st_folium in the right column
+with col3:
+    # Afficher la carte avec st_folium
+    st_folium(m, width=700, height=400)
