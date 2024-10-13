@@ -15,9 +15,9 @@ st.set_page_config(
 col1, col2, col3 = st.columns([1, 2, 3])
 
 # Display the image in the central column
-with col2, col3:
+with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
-    st.title("Déploiement des agences de la Banque National de l'Habitat")
+    st.title("Déploiement des agences de la BNH")
 
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
