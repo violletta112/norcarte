@@ -127,8 +127,8 @@ if choisir != 'choisir une wilaya':
               #st.write(df_uploaded)  # Display first few rows of the DataFrame
         
              try:
-                 df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
-                 st.write(df_wilaya)
+                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
+                 #st.write(df_wilaya)
 
                  total1 = df_wilaya.iloc[:6, 2].sum()
                  total2 = df_wilaya.iloc[6:, 2].sum()
