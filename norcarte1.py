@@ -130,9 +130,9 @@ if choisir != 'choisir une wilaya':
                  #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
                  #st.write(df_wilaya)
 
-                 total1 = df_wilaya.iloc[:6, 2].sum()
-                 total2 = df_wilaya.iloc[6:, 2].sum()
-                 total_ht = df_wilaya.iloc[:, 1].sum()
+                 total1 = df_uploaded.iloc[:6, 2].sum()
+                 total2 = df_uploaded.iloc[6:, 2].sum()
+                 total_ht = df_uploaded.iloc[:, 1].sum()
 
                  st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
                  st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
@@ -155,9 +155,9 @@ if choisir != 'choisir une wilaya':
                  #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
                  #st.write(df_wilaya)
 
-                 total1 = df_wilaya.iloc[:6, 2].sum()
-                 total2 = df_wilaya.iloc[6:, 2].sum()
-                 total_ht = df_wilaya.iloc[:, 1].sum()
+                 total1 = df_uploaded.iloc[:6, 2].sum()
+                 total2 = df_uploaded.iloc[6:, 2].sum()
+                 total_ht = df_uploaded.iloc[:, 1].sum()
 
                  st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
                  st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
