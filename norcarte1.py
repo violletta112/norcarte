@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
-import os
+from io import BytesIO
+
 st.set_page_config(
     page_title="Emplacement Agences",
     page_icon="🌍",
@@ -95,17 +96,26 @@ if choisir == 'ALGER':
     
     # Logic for downloading Excel file based on selection
     if selected_additional_option in ['bbz', 'achour']:
-        # Assuming you have files named "bbz_data.xlsx" and "achour_data.xlsx"
-        file_name = f"{selected_additional_option}_data.xlsx"
+        # Create a sample DataFrame for demonstration purposes
+        data = {
+            "Column1": [1, 2, 3],
+            "Column2": [4, 5, 6]
+        }
+        df_download = pd.DataFrame(data)
+
+        # Create an Excel file in memory
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+            df_download.to_excel(writer, index=False, sheet_name=selected_additional_option)
         
         # Provide a download button for the corresponding file
-        with open(file_name, "rb") as f:
-            st.download_button(
-                label=f"Télécharger le fichier pour {selected_additional_option}",
-                data=f,
-                file_name=file_name,
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+        output.seek(0)  # Move to the beginning of the BytesIO buffer
+        st.download_button(
+            label=f"Télécharger le fichier pour {selected_additional_option}",
+            data=output.getvalue(),
+            file_name=f"{selected_additional_option}_data.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
 elif choisir != 'Choisir une wilaya':
     try:
