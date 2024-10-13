@@ -18,8 +18,7 @@ col1, col2, col3 = st.columns([1, 2, 3])
 # Display the image in the central column
 with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
-
-st.title("Déploiement des agences de BNH")
+    st.title("Déploiement des agences de BNH")
 
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
@@ -32,6 +31,7 @@ m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 col1, col2 = st.columns([3, 2])
 
 with col1:
+    st.info('séléctionner une année pour voir les agances existantes')
     choice = st.selectbox('Choisir une option:', options)
 
     if st.button('Refresh'):
@@ -69,7 +69,7 @@ with col1:
 # Right column for options based on director presence
 with col2:
     choix = st.selectbox('Choisir une option:', optionn)
-
+    st.info('séléctionner un choix pour savoir si lagence admet un directeur ou pas')
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
