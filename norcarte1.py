@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import folium
+import os
 from streamlit_folium import st_folium
 
 st.set_page_config(
@@ -87,9 +88,12 @@ with col2:
             st.error(f"Erreur lors du filtrage des données : {e}")
 
 # Handle wilayas selection
+# Gestion des wilayas (similaire à votre code d'origine)
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
-st.info("La wilaya d'Alger contient deux agences : Bab Ezzouar et El Achour. Vous pouvez sélectionner un fichier pour calculer les taux.")
+if choisir != 'choisir une wilaya':
+    if choisir == 'ALGER':
+        st.info("La wilaya d'Alger contient deux agences : Bab Ezzouar et El Achour. Vous pouvez sélectionner un fichier pour calculer les taux.")
         
         # Ajouter un uploader de fichier pour charger un fichier Excel
         uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
@@ -99,8 +103,6 @@ st.info("La wilaya d'Alger contient deux agences : Bab Ezzouar et El Achour. Vou
             df_uploaded = pd.read_excel(uploaded_file)
             st.write("Données chargées :")
             st.write(df_uploaded)
-
-            # Vous pouvez ajouter ici la logique pour calculer les taux à partir des données chargées
     else:
         try:
             df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
