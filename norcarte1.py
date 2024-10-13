@@ -96,12 +96,12 @@ if choisir != 'choisir une wilaya':
                       """, unsafe_allow_html=True)
 
     # File uploader for Excel file
-    uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
-    if uploaded_file is not None:
+        if uploaded_file is not None:
         # Load the uploaded Excel file
-        df_uploaded = pd.read_excel(uploaded_file)
-        st.write(df_uploaded)  # Display first few rows of the DataFrame
+              df_uploaded = pd.read_excel(uploaded_file)
+              st.write(df_uploaded)  # Display first few rows of the DataFrame
         
         try:
             total1 = df_uploaded.iloc[:6, 2].sum()
