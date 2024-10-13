@@ -64,8 +64,8 @@ with col1:
 
      # Right column for options based on director presence
 
-    choix = st.selectbox('Choisir une option:', optionn)
-    st.markdown(""" Sélectionner une option pour savoir si l'agence admet un directeur ou non. """, unsafe_allow_html=True)
+    choix = st.selectbox('Sélectionner une option', optionn)
+    
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
@@ -90,7 +90,7 @@ with col1:
          if choisir == 'ALGER':
              st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                       """, unsafe_allow_html=True)
-
+              
         # File uploader for Excel file
          uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
