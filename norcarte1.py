@@ -47,6 +47,7 @@ with col1:
 
         # Clean column names
         df.columns = df.columns.str.strip()
+        
 with col2:
         # Add yellow markers to the Folium map
         for index, row in df.iterrows():
