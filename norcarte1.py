@@ -47,7 +47,7 @@ with col1:
 
         # Clean column names
         df.columns = df.columns.str.strip()
-
+with col2:
         # Add yellow markers to the Folium map
         for index, row in df.iterrows():
             folium.CircleMarker([row['latitude'], row['longitude']],
@@ -64,9 +64,10 @@ with col1:
         st.error(f"Erreur : La colonne {e} n'existe pas dans le DataFrame.")
     except Exception as e:
         st.error(f"Une erreur est survenue : {e}")
+    st_folium(m, width=600, height=300)
 
 # Right column for options based on director presence
-with col2:
+with col1:
     choix = st.selectbox('Choisir une option:', optionn)
 
     if choix != 'Aucun choix':
@@ -167,4 +168,4 @@ if choisir != 'choisir une wilaya':
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 
 # Afficher la carte avec st_folium
-st_folium(m, width=600, height=300)
+#st_folium(m, width=600, height=300)
