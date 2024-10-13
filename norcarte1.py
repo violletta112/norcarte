@@ -90,6 +90,9 @@ with col2:
 # Manage wilayas (similar to your original code)
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
+# Manage wilayas (similar to your original code)
+choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
+
 if choisir == 'ALGER':
     # Show additional options when ALGER is selected
     additional_options = ['bbz', 'achour']
@@ -97,8 +100,9 @@ if choisir == 'ALGER':
     
     # Logic for uploading Excel file based on selection
     if selected_additional_option in ['bbz', 'achour']:
-        # Show file uploader after selecting bbz or achour
-        file_path = st.file_uploader("Télécharger le fichier Excel", type="xlsx")
+        # Customize the file uploader message based on selection
+        upload_label = f"Drag and drop file here for option {selected_additional_option}"
+        file_path = st.file_uploader(upload_label, type="xlsx")
 
         if file_path is not None:
             try:
