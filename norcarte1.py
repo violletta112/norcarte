@@ -137,11 +137,11 @@ if choisir != 'choisir une wilaya':
         taux_equipements = equipements_filtered.iloc[:, 2].fillna(0).sum()
 
         # Display filtered data for debugging
-        st.write("Filtrage des aménagements:")
-        st.write(amenagements_filtered)
+        #st.write("Filtrage des aménagements:")
+       # st.write(amenagements_filtered)
         
-        st.write("Filtrage des équipements:")
-        st.write(equipements_filtered)
+        #st.write("Filtrage des équipements:")
+        #st.write(equipements_filtered)
 
         # Display results
         st.write(f"Taux d'aménagements total : {taux_amenagements:.4f}")
