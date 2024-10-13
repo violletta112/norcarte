@@ -124,7 +124,7 @@ if choisir != 'choisir une wilaya':
              if uploaded_file is not None:
              # Load the uploaded Excel file
               df_uploaded = pd.read_excel(uploaded_file)
-             st.write(df_uploaded)  # Display first few rows of the DataFrame
+              #st.write(df_uploaded)  # Display first few rows of the DataFrame
         
              try:
                  df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
