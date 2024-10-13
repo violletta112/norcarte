@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -16,7 +15,7 @@ st.set_page_config(
 col1, col2, col3 = st.columns([1, 2, 3])
 
 # Display the image in the central column
-with col2:
+with col2, col3:
     st.image("https://bnh.dz/img/logo13.png", width=400)
     st.title("Déploiement des agences de la Banque National de l'Habitat")
 
