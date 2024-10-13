@@ -120,7 +120,7 @@ if choisir != 'choisir une wilaya':
         amenagements_filtered = df_uploaded[df_uploaded.iloc[:, 0].isin(amenagements_names)]
 
         # Ensure the third column is numeric and calculate taux d'aménagements
-       amenagements_filtered.iloc[:, 2] = pd.to_numeric(amenagements_filtered.iloc[:, 2])
+       amenagements_filtered.iloc[:, 2] = pd.to_numeric(amenagements_filtered.iloc[:, 2], errors='coerce')
        taux_amenagements = amenagements_filtered.iloc[:, 2].fillna(0).sum()
         
         # Calculate taux d'équipements
