@@ -83,7 +83,7 @@ with col1:
                 folium.Marker([row['latitude'], row['longitude']],
                               popup=f"<b>Emplacement:</b> {row['name']}, <br><b>Latitude:</b> {row['latitude']}, <br><b>Longitude:</b> {row['longitude']}").add_to(m)
 
-            st.write("Données filtrées:")
+            st.write("Les Agences ayant :",choix)
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
