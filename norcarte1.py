@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import folium
-import os
 from streamlit_folium import st_folium
 from io import BytesIO
 
@@ -97,28 +96,30 @@ if choisir == 'ALGER':
     
     # Logic for downloading Excel file based on selection
     if selected_additional_option in ['bbz', 'achour']:
-       # Charger le fichier Excel
-         file_path = st.file_uploader("Télécharger le fichier Excel", type="xlsx")
+        # Load the Excel file
+        file_path = st.file_uploader("Télécharger le fichier Excel", type="xlsx")
 
-         if file_path is not None:
-           try:
-               df = pd.read_excel(file_path)
-           except Exception as e:
-        st.error(f"Erreur lors du chargement du fichier Excel : {e}")
-        st.stop()
-        # Create an Excel file in memory
-        output = BytesIO()
-        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-            df_download.to_excel(writer, index=False, sheet_name=selected_additional_option)
-        
-        # Provide a download button for the corresponding file
-        output.seek(0)  # Move to the beginning of the BytesIO buffer
-        st.download_button(
-            label=f"Télécharger le fichier pour {selected_additional_option}",
-            data=output.getvalue(),
-            file_name=f"{selected_additional_option}_data.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+        if file_path is not None:
+            try:
+                df_upload = pd.read_excel(file_path)
+                
+                # Create an Excel file in memory for download
+                output = BytesIO()
+                with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                    df_upload.to_excel(writer, index=False, sheet_name=selected_additional_option)
+                
+                output.seek(0)  # Move to the beginning of the BytesIO buffer
+                
+                # Provide a download button for the corresponding file
+                st.download_button(
+                    label=f"Télécharger le fichier pour {selected_additional_option}",
+                    data=output.getvalue(),
+                    file_name=f"{selected_additional_option}_data.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+            except Exception as e:
+                st.error(f"Erreur lors du chargement du fichier Excel : {e}")
+                st.stop()
 
 elif choisir != 'Choisir une wilaya':
     try:
