@@ -90,19 +90,15 @@ with col2:
 # Manage wilayas (similar to your original code)
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
-# Manage wilayas (similar to your original code)
-choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
-
 if choisir == 'ALGER':
     # Show additional options when ALGER is selected
-    additional_options = ['bbz', 'achour']
-    selected_additional_option = st.selectbox('Choisir une option supplémentaire:', additional_options)
+    agencies = ['Bab Ezzouar', 'El Achour']
+    selected_agency = st.selectbox('Choisissez une agence:', agencies)
     
-    # Logic for uploading Excel file based on selection
-    if selected_additional_option in ['bbz', 'achour']:
-        # Customize the file uploader message based on selection
-        upload_label = f"Drag and drop file here for option {selected_additional_option}"
-        file_path = st.file_uploader(upload_label, type="xlsx")
+    # Logic for uploading Excel file based on agency selection
+    if selected_agency == 'Bab Ezzouar':
+        # Show file uploader for Bab Ezzouar
+        file_path = st.file_uploader("Drag and drop file here for option Bab Ezzouar", type="xlsx")
 
         if file_path is not None:
             try:
@@ -111,20 +107,20 @@ if choisir == 'ALGER':
                 # Create an Excel file in memory for download
                 output = BytesIO()
                 with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-                    df_upload.to_excel(writer, index=False, sheet_name=selected_additional_option)
+                    df_upload.to_excel(writer, index=False, sheet_name='Bab Ezzouar')
                 
                 output.seek(0)  # Move to the beginning of the BytesIO buffer
                 
                 # Provide a download button for the corresponding file
                 st.download_button(
-                    label=f"Télécharger le fichier pour {selected_additional_option}",
+                    label="Télécharger le fichier pour Bab Ezzouar",
                     data=output.getvalue(),
-                    file_name=f"{selected_additional_option}_data.xlsx",
+                    file_name="Bab_Ezzouar_data.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
             except Exception as e:
                 st.error(f"Erreur lors du chargement du fichier Excel : {e}")
-
+    
 elif choisir != 'Choisir une wilaya':
     try:
         df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
