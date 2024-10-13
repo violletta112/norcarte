@@ -81,11 +81,7 @@ with col1:
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
-with col2:
-      # Afficher la carte avec st_folium
-      st_folium(m, width=600, height=300)
-
-# Handle wilayas selection
+    # Handle wilayas selection
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir != 'choisir une wilaya':
@@ -163,3 +159,8 @@ if choisir != 'choisir une wilaya':
                  st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
              except Exception as e:
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+ 
+with col2:
+      # Afficher la carte avec st_folium
+      st_folium(m, width=600, height=300)
+
