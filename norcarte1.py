@@ -103,17 +103,17 @@ if choisir != 'choisir une wilaya':
               df_uploaded = pd.read_excel(uploaded_file)
               st.write(df_uploaded)  # Display first few rows of the DataFrame
         
-        try:
-            total1 = df_uploaded.iloc[:6, 2].sum()
-            total2 = df_uploaded.iloc[6:, 2].sum()
-            total_ht = df_uploaded.iloc[:, 1].sum()
-            st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-            st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-            total_total = total1 + total2           
-            st.write(f"Le taux total est : {total_total:.4f}")
-            st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-        except Exception as e:
-            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+              try:
+                   total1 = df_uploaded.iloc[:6, 2].sum()
+                   total2 = df_uploaded.iloc[6:, 2].sum()
+                   total_ht = df_uploaded.iloc[:, 1].sum()
+                   st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                   st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                   total_total = total1 + total2           
+                   st.write(f"Le taux total est : {total_total:.4f}")
+                   st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+              except Exception as e:
+                      st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
        
 else:
     try:
