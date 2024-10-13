@@ -29,6 +29,8 @@ col1, col2 = st.columns([3, 2])
 
 with col1:
     choice = st.selectbox('Choisir une Année:', options)
+    st.markdown("""Sélectionner une année pour voir les agences existantes""", unsafe_allow_html=True)
+
     #if st.button('Refresh'):
        # st.write(f"Recherche en cours pour : {choice}")
     # Load data based on selected option
@@ -63,7 +65,7 @@ with col1:
      # Right column for options based on director presence
 
     choix = st.selectbox('Choisir une option:', optionn)
-
+    st.markdown(""" Sélectionner une option pour savoir si l'agence admet un directeur ou non. """, unsafe_allow_html=True)
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
