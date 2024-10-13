@@ -93,19 +93,20 @@ choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir != 'choisir une wilaya':
     if choisir == 'ALGER':
-        #st.info("La wilaya d'Alger contient deux agences : Bab Ezzouar et El Achour. Vous pouvez sélectionner un fichier pour calculer les taux.")
-        st.markdown("""
+    st.markdown("""
     La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
     """, unsafe_allow_html=True)
-        # Ajouter un uploader de fichier pour charger un fichier Excel
-        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
-        
-        if uploaded_file is not None:
-            # Charger le fichier Excel
-            df_uploaded = pd.read_excel(uploaded_file)
-            st.write("Données chargées :")
-            st.write(df_uploaded)
-                    # Calculate taux d'aménagements
+
+    # File uploader for Excel file
+    uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+    
+    if uploaded_file is not None:
+        # Load the uploaded Excel file
+        df_uploaded = pd.read_excel(uploaded_file)
+        st.write("Données chargées :")
+        st.write(df_uploaded.head())  # Display first few rows of the DataFrame
+
+        # Calculate taux d'aménagements
         amenagements_names = [
             "Dépose et démolition", 
             "maconnerie", 
@@ -115,7 +116,8 @@ if choisir != 'choisir une wilaya':
             "menuisrie"
         ]
         
-        taux_amenagements = df_uploaded[df_uploaded.iloc[:, 0].isin(amenagements_names)].iloc[:, 2].sum()
+        amenagements_filtered = df_uploaded[df_uploaded.iloc[:, 0].isin(amenagements_names)]
+        taux_amenagements = amenagements_filtered.iloc[:, 2].fillna(0).sum()
         
         # Calculate taux d'équipements
         equipements_names = [
@@ -132,7 +134,15 @@ if choisir != 'choisir une wilaya':
             "système de pointage"
         ]
         
-        taux_equipements = df_uploaded[df_uploaded.iloc[:, 0].isin(equipements_names)].iloc[:, 2].sum()
+        equipements_filtered = df_uploaded[df_uploaded.iloc[:, 0].isin(equipements_names)]
+        taux_equipements = equipements_filtered.iloc[:, 2].fillna(0).sum()
+
+        # Display filtered data for debugging
+        st.write("Filtrage des aménagements:")
+        st.write(amenagements_filtered)
+        
+        st.write("Filtrage des équipements:")
+        st.write(equipements_filtered)
 
         # Display results
         st.write(f"Taux d'aménagements total : {taux_amenagements:.4f}")
