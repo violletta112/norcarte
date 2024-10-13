@@ -93,8 +93,8 @@ choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir != 'choisir une wilaya':
     if choisir == 'ALGER':
-    st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
-    """, unsafe_allow_html=True)
+              st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
+              """, unsafe_allow_html=True)
 
     # File uploader for Excel file
     uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
