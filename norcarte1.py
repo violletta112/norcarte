@@ -61,7 +61,7 @@ with col1:
         st.error(f"Une erreur est survenue : {e}")
 
 # Right column for options based on director presence
-#with col2:
+
     choix = st.selectbox('Choisir une option:', optionn)
 
     if choix != 'Aucun choix':
@@ -160,6 +160,6 @@ if choisir != 'choisir une wilaya':
                  st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
              except Exception as e:
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
-
-# Afficher la carte avec st_folium
-st_folium(m, width=600, height=300)
+with col2:
+      # Afficher la carte avec st_folium
+      st_folium(m, width=600, height=300)
