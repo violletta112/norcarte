@@ -97,13 +97,15 @@ if choisir == 'ALGER':
     
     # Logic for downloading Excel file based on selection
     if selected_additional_option in ['bbz', 'achour']:
-        # Create a sample DataFrame for demonstration purposes
-        data = {
-            "Column1": [1, 2, 3],
-            "Column2": [4, 5, 6]
-        }
-        df_download = pd.DataFrame(data)
+       # Charger le fichier Excel
+         file_path = st.file_uploader("Télécharger le fichier Excel", type="xlsx")
 
+         if file_path is not None:
+           try:
+               df = pd.read_excel(file_path)
+           except Exception as e:
+        st.error(f"Erreur lors du chargement du fichier Excel : {e}")
+        st.stop()
         # Create an Excel file in memory
         output = BytesIO()
         with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
