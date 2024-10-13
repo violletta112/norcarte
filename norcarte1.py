@@ -102,8 +102,8 @@ if choisir != 'choisir une wilaya':
     if uploaded_file is not None:
         # Load the uploaded Excel file
         df_uploaded = pd.read_excel(uploaded_file)
-        st.write("Données chargées :")
-        st.write(df_uploaded.head())  # Display first few rows of the DataFrame
+       # st.write("Données chargées :")
+        st.write(df_uploaded)  # Display first few rows of the DataFrame
 
         # Calculate taux d'aménagements
         amenagements_names = [
