@@ -18,23 +18,19 @@ col1, col2, col3 = st.columns([1, 2, 3])
 with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
     st.title("Déploiement des agences de BNH")
-    m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
+
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
 WILAYAS = ['choisir une wilaya', 'ALGER', 'CONSTANTINE', 'ORAN', 'BISKRA', 'SÉTIF', 'CHLEF','BECHAR']
-
 # Create a Folium map
-
-
+m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 # Display the map in the left column
 col1, col2 = st.columns([3, 2])
 
 with col1:
-    choice = st.selectbox('Choisir une option:', options)
-
-    if st.button('Refresh'):
-        st.write(f"Recherche en cours pour : {choice}")
-
+    choice = st.selectbox('Choisir une Année:', options)
+    #if st.button('Refresh'):
+       # st.write(f"Recherche en cours pour : {choice}")
     # Load data based on selected option
     try:
         if choice == '2024':
@@ -65,7 +61,7 @@ with col1:
         st.error(f"Une erreur est survenue : {e}")
 
 # Right column for options based on director presence
-with col2:
+#with col2:
     choix = st.selectbox('Choisir une option:', optionn)
 
     if choix != 'Aucun choix':
