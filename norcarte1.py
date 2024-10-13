@@ -93,8 +93,20 @@ if choisir == 'ALGER':
     additional_options = ['bbz', 'achour']
     selected_additional_option = st.selectbox('Choisir une option supplémentaire:', additional_options)
     
-    # You can add logic here to handle calculations based on selected_additional_option
-    
+    # Logic for downloading Excel file based on selection
+    if selected_additional_option in ['bbz', 'achour']:
+        # Assuming you have files named "bbz_data.xlsx" and "achour_data.xlsx"
+        file_name = f"{selected_additional_option}_data.xlsx"
+        
+        # Provide a download button for the corresponding file
+        with open(file_name, "rb") as f:
+            st.download_button(
+                label=f"Télécharger le fichier pour {selected_additional_option}",
+                data=f,
+                file_name=file_name,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+
 elif choisir != 'Choisir une wilaya':
     try:
         df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
@@ -116,4 +128,3 @@ else:
 
 # Display the map with st_folium
 st_folium(m, width=600, height=300)
-
