@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import folium
 import os
-import xlsxwriter
 from streamlit_folium import st_folium
 from io import BytesIO
 
@@ -93,12 +92,12 @@ choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir == 'ALGER':
     # Show additional options when ALGER is selected
-    additional_options = ['Bab Ezzouar', 'El Achour']
+    additional_options = ['bbz', 'achour']
     selected_additional_option = st.selectbox('Choisir une option supplémentaire:', additional_options)
     
-    # Logic for downloading Excel file based on selection
-    if selected_additional_option in ['Bab Ezzouar', 'El Achour']:
-        # Load the Excel file
+    # Logic for uploading Excel file based on selection
+    if selected_additional_option in ['bbz', 'achour']:
+        # Show file uploader after selecting bbz or achour
         file_path = st.file_uploader("Télécharger le fichier Excel", type="xlsx")
 
         if file_path is not None:
@@ -121,7 +120,6 @@ if choisir == 'ALGER':
                 )
             except Exception as e:
                 st.error(f"Erreur lors du chargement du fichier Excel : {e}")
-                st.stop()
 
 elif choisir != 'Choisir une wilaya':
     try:
