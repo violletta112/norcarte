@@ -105,6 +105,38 @@ if choisir != 'choisir une wilaya':
             df_uploaded = pd.read_excel(uploaded_file)
             st.write("Données chargées :")
             st.write(df_uploaded)
+                    # Calculate taux d'aménagements
+        amenagements_names = [
+            "Dépose et démolition", 
+            "maconnerie", 
+            "revetement", 
+            "enduit", 
+            "pienture", 
+            "menuisrie"
+        ]
+        
+        taux_amenagements = df_uploaded[df_uploaded.iloc[:, 0].isin(amenagements_names)].iloc[:, 2].sum()
+        
+        # Calculate taux d'équipements
+        equipements_names = [
+            "chambre fort", 
+            "vitrage sécurise", 
+            "électricité", 
+            "plomberie & chauffage central", 
+            "climatisation", 
+            "détection incendie", 
+            "réseau téléphonique & informatique",
+            "anti intrusion",
+            "télésurveillance",
+            "détection de vibrations",
+            "système de pointage"
+        ]
+        
+        taux_equipements = df_uploaded[df_uploaded.iloc[:, 0].isin(equipements_names)].iloc[:, 2].sum()
+
+        # Display results
+        st.write(f"Taux d'aménagements total : {taux_amenagements:.4f}")
+        st.write(f"Taux d'équipements total : {taux_equipements:.4f}")
     else:
         try:
             df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
