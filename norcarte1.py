@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import folium
-from streamlit_folium import st_folium  # Utilisez st_folium au lieu de folium_static
+from streamlit_folium import st_folium
 import os
 st.set_page_config(
     page_title="Emplacement Agences",
@@ -10,23 +10,23 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Créer des colonnes pour centrer l'image
+# Create columns to center the image
 col1, col2, col3 = st.columns([1, 2, 3])
 
-# Afficher l'image dans la colonne centrale
+# Display the image in the central column
 with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
 
 st.title("Déploiement des agences de BNH")
 
-options = ['choisir une année', '2024', '2025', '2026']
-optionn = ['aucun choix', 'directeur oui', 'directeur non']
-WILAYAS = ['choisir une wilaya', 'ADRAR', 'ALGER', 'BOUIRA', 'BLIDA', 'MEDIA']
+options = ['Choisir une année', '2024', '2025', '2026']
+optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
+WILAYAS = ['Choisir une wilaya', 'ALGER', 'CONSTANTINE', 'ORAN', 'BISKRA', 'SÉTIF', 'CHLEF', 'BECHAR']
 
-# Créer une carte Folium
+# Create a Folium map
 m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 
-# Afficher la carte dans la colonne de gauche
+# Display the map in the left column
 col1, col2 = st.columns([3, 2])
 
 with col1:
@@ -35,7 +35,7 @@ with col1:
     if st.button('Refresh'):
         st.write(f"Recherche en cours pour : {choice}")
 
-    # Charger les données en fonction de l'option sélectionnée
+    # Load data based on selected option
     try:
         if choice == '2024':
             df = pd.read_excel('carte.graphique.xlsx')
@@ -44,13 +44,9 @@ with col1:
         else:
             df = pd.read_excel('carte.graphique3.xlsx')
 
-        # Nettoyer les noms de colonnes en supprimant les espaces
         df.columns = df.columns.str.strip()
 
-        # Vérifiez les colonnes disponibles
-        #st.write(df.columns)
-
-        # Ajouter des marqueurs jaunes à la carte Folium
+        # Add yellow markers to the Folium map
         for index, row in df.iterrows():
             folium.CircleMarker([row['latitude'], row['longitude']],
                                 radius=10,
@@ -67,16 +63,15 @@ with col1:
     except Exception as e:
         st.error(f"Une erreur est survenue : {e}")
 
-# Afficher le tableau dans la colonne de droite
+# Display the table in the right column
 with col2:
     choix = st.selectbox('Choisir une option:', optionn)
 
-    # Logique pour filtrer et afficher les données selon le choix
-    if choix != 'aucun choix':
+    if choix != 'Aucun choix':
         try:
-            df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'directeur oui' else 'non')]
+            df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
             for index, row in df_filtered.iterrows():
-                color = 'green' if choix == 'directeur oui' else 'red'
+                color = 'green' if choix == 'Avec directeur' else 'red'
                 folium.CircleMarker([row['latitude'], row['longitude']],
                                     radius=10,
                                     color=color,
@@ -89,10 +84,18 @@ with col2:
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
-     # Gestion des wilayas (similaire à votre code d'origine)
+
+# Manage wilayas (similar to your original code)
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
-if choisir != 'choisir une wilaya':
+if choisir == 'ALGER':
+    # Show additional options when ALGER is selected
+    additional_options = ['bbz', 'achour']
+    selected_additional_option = st.selectbox('Choisir une option supplémentaire:', additional_options)
+    
+    # You can add logic here to handle calculations based on selected_additional_option
+    
+elif choisir != 'Choisir une wilaya':
     try:
         df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
         st.write(df_wilaya)
@@ -111,6 +114,6 @@ if choisir != 'choisir une wilaya':
 else:
     st.write("Veuillez sélectionner une WILAYA pour afficher les données.")
 
-# Afficher la carte avec st_folium
+# Display the map with st_folium
 st_folium(m, width=600, height=300)
 
