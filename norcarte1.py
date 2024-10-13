@@ -106,17 +106,22 @@ if choisir != 'choisir une wilaya':
         st.write(df_uploaded)  # Display first few rows of the DataFrame
 
         # Calculate taux d'aménagements
+        # Define the names to filter for taux d'aménagements
         amenagements_names = [
             "Dépose et démolition", 
             "maconnerie", 
             "revetement", 
             "enduit", 
             "pienture", 
-            "menuisrie"
-        ]
-        
+            "menuiserie"  # Corrected spelling here
+            ]
+
+        # Filter the DataFrame based on the names
         amenagements_filtered = df_uploaded[df_uploaded.iloc[:, 0].isin(amenagements_names)]
-        taux_amenagements = amenagements_filtered.iloc[:, 2].fillna(0).sum()
+
+        # Ensure the third column is numeric and calculate taux d'aménagements
+       amenagements_filtered.iloc[:, 2] = pd.to_numeric(amenagements_filtered.iloc[:, 2], errors='coerce')
+       taux_amenagements = amenagements_filtered.iloc[:, 2].fillna(0).sum()
         
         # Calculate taux d'équipements
         equipements_names = [
