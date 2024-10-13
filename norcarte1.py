@@ -17,7 +17,8 @@ col1, col2, col3 = st.columns([1, 2, 3])
 # Display the image in the central column
 with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
-    st.title("Déploiement des agences de la BNH")
+
+st.title("Déploiement des agences de BNH")
 
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
@@ -30,7 +31,6 @@ m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 col1, col2 = st.columns([3, 2])
 
 with col1:
-    st.info('Séléctionner une année pour voir les agances existantes')
     choice = st.selectbox('Choisir une option:', options)
 
     if st.button('Refresh'):
@@ -66,9 +66,9 @@ with col1:
         st.error(f"Une erreur est survenue : {e}")
 
 # Right column for options based on director presence
-#with col2:
+with col2:
     choix = st.selectbox('Choisir une option:', optionn)
-    st.info('Séléctionner un choix pour savoir si lagence admet un directeur ou pas')
+
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
@@ -82,13 +82,14 @@ with col1:
                 folium.Marker([row['latitude'], row['longitude']],
                               popup=f"<b>Emplacement:</b> {row['name']}, <br><b>Latitude:</b> {row['latitude']}, <br><b>Longitude:</b> {row['longitude']}").add_to(m)
 
-            st.write("Les Agences:", choix)
+            st.write("Données filtrées:")
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
 
 # Handle wilayas selection
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
+
 if choisir != 'choisir une wilaya':
     if choisir == 'ALGER':
         st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
@@ -125,6 +126,9 @@ if choisir != 'choisir une wilaya':
               #st.write(df_uploaded)  # Display first few rows of the DataFrame
         
              try:
+                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
+                 #st.write(df_wilaya)
+
                  total1 = df_uploaded.iloc[:6, 2].sum()
                  total2 = df_uploaded.iloc[6:, 2].sum()
                  total_ht = df_uploaded.iloc[:, 1].sum()
@@ -161,6 +165,6 @@ if choisir != 'choisir une wilaya':
                  st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
              except Exception as e:
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
-with col2:
-         # Afficher la carte avec st_folium
-        st_folium(m, width=700, height=400)
+
+# Afficher la carte avec st_folium
+st_folium(m, width=600, height=300)
