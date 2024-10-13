@@ -89,7 +89,6 @@ with col1:
 
 # Handle wilayas selection
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
-
 if choisir != 'choisir une wilaya':
     if choisir == 'ALGER':
         st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
@@ -126,9 +125,6 @@ if choisir != 'choisir une wilaya':
               #st.write(df_uploaded)  # Display first few rows of the DataFrame
         
              try:
-                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
-                 #st.write(df_wilaya)
-
                  total1 = df_uploaded.iloc[:6, 2].sum()
                  total2 = df_uploaded.iloc[6:, 2].sum()
                  total_ht = df_uploaded.iloc[:, 1].sum()
@@ -167,4 +163,4 @@ if choisir != 'choisir une wilaya':
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 with col2:
          # Afficher la carte avec st_folium
-        st_folium(m, width=600, height=300)
+        st_folium(m, width=700, height=400)
