@@ -88,13 +88,12 @@ with col2:
             st.error(f"Erreur lors du filtrage des données : {e}")
 
 # Handle wilayas selection
-# Gestion des wilayas (similaire à votre code d'origine)
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir != 'choisir une wilaya':
     if choisir == 'ALGER':
-              st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
-              """, unsafe_allow_html=True)
+        st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
+                      """, unsafe_allow_html=True)
 
     # File uploader for Excel file
     uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
@@ -102,73 +101,36 @@ if choisir != 'choisir une wilaya':
     if uploaded_file is not None:
         # Load the uploaded Excel file
         df_uploaded = pd.read_excel(uploaded_file)
-       # st.write("Données chargées :")
         st.write(df_uploaded)  # Display first few rows of the DataFrame
-
-        # Calculate taux d'aménagements
-        # Define the names to filter for taux d'aménagements
-        amenagements_names = [
-            "Dépose et démolition", 
-            "maconnerie", 
-            "revetement", 
-            "enduit", 
-            "pienture", 
-            "menuiserie"  # Corrected spelling here
-            ]
-
-        # Filter the DataFrame based on the names
-        amenagements_filtered = df_uploaded[df_uploaded.iloc[:, 0].isin(amenagements_names)]
-
-        # Ensure the third column is numeric and calculate taux d'aménagements
-       amenagements_filtered.iloc[:, 2] = pd.to_numeric(amenagements_filtered.iloc[:, 2], errors='coerce')
-       taux_amenagements = amenagements_filtered.iloc[:, 2].fillna(0).sum()
         
-        # Calculate taux d'équipements
-        equipements_names = [
-            "chambre fort", 
-            "vitrage sécurise", 
-            "électricité", 
-            "plomberie & chauffage central", 
-            "climatisation", 
-            "détection incendie", 
-            "réseau téléphonique & informatique",
-            "anti intrusion",
-            "télésurveillance",
-            "détection de vibrations",
-            "système de pointage"
-        ]
-        
-        equipements_filtered = df_uploaded[df_uploaded.iloc[:, 0].isin(equipements_names)]
-        taux_equipements = equipements_filtered.iloc[:, 2].fillna(0).sum()
-
-        # Display filtered data for debugging
-        #st.write("Filtrage des aménagements:")
-       # st.write(amenagements_filtered)
-        
-        #st.write("Filtrage des équipements:")
-        #st.write(equipements_filtered)
-
-        # Display results
-        st.write(f"Taux d'aménagements total : {taux_amenagements:.4f}")
-        st.write(f"Taux d'équipements total : {taux_equipements:.4f}")
-    else:
         try:
-            df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
-            st.write(df_wilaya)
-
-            total1 = df_wilaya.iloc[:6, 2].sum()
-            total2 = df_wilaya.iloc[6:, 2].sum()
-            total_ht = df_wilaya.iloc[:, 1].sum()
-
+            total1 = df_uploaded.iloc[:6, 2].sum()
+            total2 = df_uploaded.iloc[6:, 2].sum()
+            total_ht = df_uploaded.iloc[:, 1].sum()
             st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
             st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-            total_total = total1 + total2
+            total_total = total1 + total2           
             st.write(f"Le taux total est : {total_total:.4f}")
             st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
         except Exception as e:
             st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+       
 else:
-    st.write("Veuillez sélectionner une WILAYA pour afficher les données.")
+    try:
+        df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
+        st.write(df_wilaya)
+
+        total1 = df_wilaya.iloc[:6, 2].sum()
+        total2 = df_wilaya.iloc[6:, 2].sum()
+        total_ht = df_wilaya.iloc[:, 1].sum()
+
+        st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+        st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+        total_total = total1 + total2
+        st.write(f"Le taux total est : {total_total:.4f}")
+        st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+    except Exception as e:
+        st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 
 # Afficher la carte avec st_folium
 st_folium(m, width=600, height=300)
