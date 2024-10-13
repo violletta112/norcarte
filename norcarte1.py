@@ -31,7 +31,7 @@ m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 col1, col2 = st.columns([3, 2])
 
 with col1:
-    st.info('séléctionner une année pour voir les agances existantes')
+    st.info('Séléctionner une année pour voir les agances existantes')
     choice = st.selectbox('Choisir une option:', options)
 
     if st.button('Refresh'):
@@ -67,9 +67,9 @@ with col1:
         st.error(f"Une erreur est survenue : {e}")
 
 # Right column for options based on director presence
-with col2:
+#with col2:
     choix = st.selectbox('Choisir une option:', optionn)
-    st.info('séléctionner un choix pour savoir si lagence admet un directeur ou pas')
+    st.info('Séléctionner un choix pour savoir si lagence admet un directeur ou pas')
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
@@ -166,6 +166,6 @@ if choisir != 'choisir une wilaya':
                  st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
              except Exception as e:
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
-
-# Afficher la carte avec st_folium
-st_folium(m, width=600, height=300)
+with col2:
+         # Afficher la carte avec st_folium
+        st_folium(m, width=600, height=300)
