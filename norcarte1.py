@@ -89,37 +89,36 @@ with col2:
 # Handle wilayas selection
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
-if choisir == 'ALGER':
-    local_options = ['Bab Ezzouar', 'El Achour']
-    selected_locality = st.selectbox('Choisissez une localité:', local_options)
+st.info("La wilaya d'Alger contient deux agences : Bab Ezzouar et El Achour. Vous pouvez sélectionner un fichier pour calculer les taux.")
+        
+        # Ajouter un uploader de fichier pour charger un fichier Excel
+        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+        
+        if uploaded_file is not None:
+            # Charger le fichier Excel
+            df_uploaded = pd.read_excel(uploaded_file)
+            st.write("Données chargées :")
+            st.write(df_uploaded)
 
-    # Load data based on selected locality
-    if selected_locality:
+            # Vous pouvez ajouter ici la logique pour calculer les taux à partir des données chargées
+    else:
         try:
-            # Load corresponding Excel file based on locality (example filenames)
-            df_locality = pd.read_excel(f'{selected_locality}.xlsx')
-            st.write(df_locality)
+            df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
+            st.write(df_wilaya)
+
+            total1 = df_wilaya.iloc[:6, 2].sum()
+            total2 = df_wilaya.iloc[6:, 2].sum()
+            total_ht = df_wilaya.iloc[:, 1].sum()
+
+            st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+            st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+            total_total = total1 + total2
+            st.write(f"Le taux total est : {total_total:.4f}")
+            st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
         except Exception as e:
-            st.error(f"Erreur lors du chargement des données pour la localité : {e}")
-
-elif choisir != 'choisir une wilaya':
-    try:
-        df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
-        st.write(df_wilaya)
-
-        total1 = df_wilaya.iloc[:6, 2].sum()
-        total2 = df_wilaya.iloc[6:, 2].sum()
-        total_ht = df_wilaya.iloc[:, 1].sum()
-
-        st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-        st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-        total_total = total1 + total2
-        st.write(f"Le taux total est : {total_total:.4f}")
-        st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-    except Exception as e:
-        st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 else:
     st.write("Veuillez sélectionner une WILAYA pour afficher les données.")
 
-# Display the map with st_folium
+# Afficher la carte avec st_folium
 st_folium(m, width=600, height=300)
