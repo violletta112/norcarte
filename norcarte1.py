@@ -1,9 +1,7 @@
 import streamlit as st
 import pandas as pd
 import folium
-import os
 from streamlit_folium import st_folium
-from io import BytesIO
 
 st.set_page_config(
     page_title="Emplacement Agences",
@@ -12,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Create columns to center the image
+# Create columns for centering the image
 col1, col2, col3 = st.columns([1, 2, 3])
 
 # Display the image in the central column
@@ -23,7 +21,7 @@ st.title("Déploiement des agences de BNH")
 
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
-WILAYAS = ['Choisir une wilaya', 'ALGER', 'CONSTANTINE', 'ORAN', 'BISKRA', 'SÉTIF', 'CHLEF', 'BECHAR']
+WILAYAS = ['choisir une wilaya', 'ALGER', 'CONSTANTINE', 'ORAN', 'BISKRA', 'SÉTIF', 'CHLEF','BECHAR']
 
 # Create a Folium map
 m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
@@ -46,6 +44,7 @@ with col1:
         else:
             df = pd.read_excel('carte.graphique3.xlsx')
 
+        # Clean column names
         df.columns = df.columns.str.strip()
 
         # Add yellow markers to the Folium map
@@ -65,7 +64,7 @@ with col1:
     except Exception as e:
         st.error(f"Une erreur est survenue : {e}")
 
-# Display the table in the right column
+# Right column for options based on director presence
 with col2:
     choix = st.selectbox('Choisir une option:', optionn)
 
@@ -87,41 +86,23 @@ with col2:
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
 
-# Manage wilayas (similar to your original code)
+# Handle wilayas selection
 choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir == 'ALGER':
-    # Show additional options when ALGER is selected
-    agencies = ['Bab Ezzouar', 'El Achour']
-    selected_agency = st.selectbox('Choisissez une agence:', agencies)
-    
-    # Logic for uploading Excel file based on agency selection
-    if selected_agency == 'Bab Ezzouar':
-        # Show file uploader for Bab Ezzouar
-        file_path = st.file_uploader("Drag and drop file here for option Bab Ezzouar", type="xlsx")
+    local_options = ['Bab Ezzouar', 'El Achour']
+    selected_locality = st.selectbox('Choisissez une localité:', local_options)
 
-        if file_path is not None:
-            try:
-                df_upload = pd.read_excel(file_path)
-                
-                # Create an Excel file in memory for download
-                output = BytesIO()
-                with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-                    df_upload.to_excel(writer, index=False, sheet_name='Bab Ezzouar')
-                
-                output.seek(0)  # Move to the beginning of the BytesIO buffer
-                
-                # Provide a download button for the corresponding file
-                st.download_button(
-                    label="Télécharger le fichier pour Bab Ezzouar",
-                    data=output.getvalue(),
-                    file_name="Bab_Ezzouar_data.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
-            except Exception as e:
-                st.error(f"Erreur lors du chargement du fichier Excel : {e}")
-    
-elif choisir != 'Choisir une wilaya':
+    # Load data based on selected locality
+    if selected_locality:
+        try:
+            # Load corresponding Excel file based on locality (example filenames)
+            df_locality = pd.read_excel(f'{selected_locality}.xlsx')
+            st.write(df_locality)
+        except Exception as e:
+            st.error(f"Erreur lors du chargement des données pour la localité : {e}")
+
+elif choisir != 'choisir une wilaya':
     try:
         df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
         st.write(df_wilaya)
