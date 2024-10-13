@@ -88,10 +88,10 @@ with col2:
             st.error(f"Erreur lors du filtrage des données : {e}")
 
 # Handle wilayas selection
-    choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
+choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
-    if choisir != 'choisir une wilaya':
-        if choisir == 'ALGER':
+if choisir != 'choisir une wilaya':
+    if choisir == 'ALGER':
              st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                       """, unsafe_allow_html=True)
 
@@ -115,7 +115,7 @@ with col2:
              except Exception as e:
                       st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
        
-        else:
+    else:
              try:
                   df_wilaya = pd.read_excel('recapitulation.alger.xlsx', sheet_name=choisir.strip())
                   st.write(df_wilaya)
@@ -134,4 +134,3 @@ with col2:
 
 # Afficher la carte avec st_folium
 st_folium(m, width=600, height=300)
-
