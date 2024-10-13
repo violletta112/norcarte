@@ -93,11 +93,11 @@ choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 if choisir == 'ALGER':
     # Show additional options when ALGER is selected
-    additional_options = ['bbz', 'achour']
+    additional_options = ['Bab Ezzouar', 'El Achour']
     selected_additional_option = st.selectbox('Choisir une option supplémentaire:', additional_options)
     
     # Logic for downloading Excel file based on selection
-    if selected_additional_option in ['bbz', 'achour']:
+    if selected_additional_option in ['Bab Ezzouar', 'El Achour']:
         # Load the Excel file
         file_path = st.file_uploader("Télécharger le fichier Excel", type="xlsx")
 
