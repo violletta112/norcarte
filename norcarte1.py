@@ -18,7 +18,7 @@ col1, col2, col3 = st.columns([1, 2, 3])
 # Display the image in the central column
 with col2:
     st.image("https://bnh.dz/img/logo13.png", width=400)
-    st.title("Déploiement des agences de BNH")
+    st.title("Déploiement des agences de la Banque National de l'Habitat")
 
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
@@ -83,7 +83,7 @@ with col1:
                 folium.Marker([row['latitude'], row['longitude']],
                               popup=f"<b>Emplacement:</b> {row['name']}, <br><b>Latitude:</b> {row['latitude']}, <br><b>Longitude:</b> {row['longitude']}").add_to(m)
 
-            st.write("Les Agences ayant :",choix)
+            st.write("Les Agences:", choix)
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
