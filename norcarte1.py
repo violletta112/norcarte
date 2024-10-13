@@ -146,7 +146,7 @@ if choisir != 'choisir une wilaya':
                 total_total = total1 + total2
                 st.write(f"Le taux total est : {total_total:.4f}")
                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-            except Exception as e:
+             except Exception as e:
                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
 
 # Afficher la carte avec st_folium
