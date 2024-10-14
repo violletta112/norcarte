@@ -210,7 +210,7 @@ with col1:
  
 
 
-         st.write('Veuillez sélectionner une wilaya valide.')
+        st.write('Veuillez sélectionner une wilaya valide.')
 with col2:
       # Afficher la carte avec st_folium
        st_folium(m, width=600, height=300)
