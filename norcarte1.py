@@ -209,9 +209,8 @@ with col1:
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
  
 
-else:
-     # Afficher message si aucune wilaya n'est choisie 
-     st.write('Veuillez sélectionner une wilaya valide.')
+
+         st.write('Veuillez sélectionner une wilaya valide.')
 with col2:
       # Afficher la carte avec st_folium
        st_folium(m, width=600, height=300)
