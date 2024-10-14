@@ -105,16 +105,16 @@ def process_file(uploaded_file):
            except Exception as e:
                  st.error(f"Erreur lors du chargement des données : {e}")
 
-        choisir = st.selectbox("Sélectionnez une wilaya", WILAYAS)
+choisir = st.selectbox("Sélectionnez une wilaya", WILAYAS)
 
-        if choisir != 'choisir une wilaya':
-             if choisir == 'ALGER':
-                  st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
+if choisir != 'choisir une wilaya':
+        if choisir == 'ALGER':
+                st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                                    """, unsafe_allow_html=True)
 
     # File uploader for Excel file
-        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
-        process_file(uploaded_file)
+uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+process_file(uploaded_file)
 with col2:
       # Afficher la carte avec st_folium
        st_folium(m, width=600, height=300)
