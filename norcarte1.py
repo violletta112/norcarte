@@ -115,6 +115,8 @@ if choisir != 'choisir une wilaya':
           # File uploader for Excel file
         uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
         process_file(uploaded_file)
+        if uploaded_file is not None:
+            df = pd.read_excel(uploaded_file)  # U
 with col2:
       # Afficher la carte avec st_folium
        st_folium(m, width=600, height=300)
