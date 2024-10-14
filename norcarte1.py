@@ -65,7 +65,7 @@ with col1:
      # Right column for options based on director presence
 
     choix = st.selectbox('Choisir une option ', optionn)
-   st.markdown("La couleur verte désigne que l'agence a un directeur, ")
+   st.info("La couleur verte désigne que l'agence a un directeur, ")
    st.markdown("et le rouge indique le cas contraire")
     if choix != 'Aucun choix':
         try:
