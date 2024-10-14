@@ -28,8 +28,8 @@ m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 col1, col2 = st.columns([3, 2])
 
 with col1:
-    choice = st.selectbox('Choisir une Année:', options)
-    st.markdown("""Sélectionner une année pour voir les agences existantes""", unsafe_allow_html=True)
+    choice = st.selectbox('Sélectionner une année pour voir les agences existantes', options)
+    #st.markdown("""Sélectionner une année pour voir les agences existantes""", unsafe_allow_html=True)
 
     #if st.button('Refresh'):
        # st.write(f"Recherche en cours pour : {choice}")
