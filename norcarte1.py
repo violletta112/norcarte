@@ -112,9 +112,9 @@ if choisir != 'choisir une wilaya':
                 st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                                    """, unsafe_allow_html=True)
 
-    # File uploader for Excel file
-uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
-process_file(uploaded_file)
+          # File uploader for Excel file
+        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+        process_file(uploaded_file)
 with col2:
       # Afficher la carte avec st_folium
        st_folium(m, width=600, height=300)
