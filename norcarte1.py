@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import folium
-import os
 from streamlit_folium import st_folium
 
 st.set_page_config(
@@ -22,6 +21,7 @@ with col2:
 options = ['Choisir une année', '2024', '2025', '2026']
 optionn = ['Aucun choix', 'Avec directeur', 'Sans directeur']
 WILAYAS = ['choisir une wilaya', 'ALGER', 'CONSTANTINE', 'ORAN', 'BISKRA', 'SÉTIF', 'CHLEF','BECHAR']
+
 # Create a Folium map
 m = folium.Map([35.7950980697429, 3.1787263226179263], zoom_start=6)
 # Display the map in the left column
@@ -29,10 +29,7 @@ col1, col2 = st.columns([3, 2])
 
 with col1:
     choice = st.selectbox('Sélectionner une année pour voir les agences existantes', options)
-    #st.markdown("""Sélectionner une année pour voir les agences existantes""", unsafe_allow_html=True)
 
-    #if st.button('Refresh'):
-       # st.write(f"Recherche en cours pour : {choice}")
     # Load data based on selected option
     try:
         if choice == '2024':
@@ -45,7 +42,7 @@ with col1:
         # Clean column names
         df.columns = df.columns.str.strip()
 
-        # Add yellow markers to the Folium map
+        # Add markers to the Folium map
         for index, row in df.iterrows():
             folium.CircleMarker([row['latitude'], row['longitude']],
                                 radius=10,
@@ -62,12 +59,10 @@ with col1:
     except Exception as e:
         st.error(f"Une erreur est survenue : {e}")
 
-     # Right column for options based on director presence
-
+    # Right column for options based on director presence
     choix = st.selectbox('Choisir une option ', optionn)
-   #st.info("La couleur verte désigne que l'agence a un directeur, ")
-   #st.markdown("et le rouge indique le cas contraire")
     st.info("La couleur verte désigne que l'agence a un directeur et le rouge indique le cas contraire.")
+    
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
@@ -85,17 +80,18 @@ with col1:
             st.write(df_filtered.iloc[:, [0, 3]])
         except Exception as e:
             st.error(f"Erreur lors du filtrage des données : {e}")
-    # Handle wilayas selection
-    choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
+
+# Handle wilayas selection
+choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
 # Dictionary to hold messages for each wilaya
 messages = {
     'ALGER': """La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.""",
     'CONSTANTINE': "Charger le fichies de Constantine.",
-    'ORAN': "Charger le fichiesd'oran.",
-    'BISKRA': "Charger le fichies de biskra",
-    'SÉTIF': "Charger le fichies de sétif.",
-    'CHLEF': "Charger le fichies de chlef.",
+    'ORAN': "Charger le fichies d'Oran.",
+    'BISKRA': "Charger le fichies de Biskra.",
+    'SÉTIF': "Charger le fichies de Sétif.",
+    'CHLEF': "Charger le fichies de Chlef.",
     'BECHAR': "Charger le fichies de Bechar."
 }
 
@@ -120,8 +116,14 @@ if choisir != 'choisir une wilaya':
             total_total = total1 + total2
             st.write(f"Le taux total est : {total_total:.4f}")
             st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+
+            # Button to show the uploaded DataFrame
+            if st.button("Afficher le tableau Excel chargé"):
+                st.write(df_uploaded)
+
         except Exception as e:
-            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}") 
+            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+
 with col2:
-      # Afficher la carte avec st_folium
-       st_folium(m, width=600, height=300)
+    # Display the map with st_folium
+    st_folium(m, width=600, height=300)
