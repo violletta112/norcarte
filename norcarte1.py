@@ -88,57 +88,32 @@ with col1:
     # Handle wilayas selection
     choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
 
-    if choisir != 'choisir une wilaya':
-         if choisir == 'ALGER':
-             st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
-                      """, unsafe_allow_html=True)
-              
-        # File uploader for Excel file
-         uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
-    
-         if uploaded_file is not None:
-        # Load the uploaded Excel file
-            df_uploaded = pd.read_excel(uploaded_file)
-            st.write(df_uploaded)  # Display first few rows of the DataFrame
-        
-         try:
-            total1 = df_uploaded.iloc[:6, 2].sum()
-            total2 = df_uploaded.iloc[6:, 2].sum()
-            total_ht = df_uploaded.iloc[:, 1].sum()
-            st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-            st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-            total_total = total1 + total2           
-            st.write(f"Le taux total est : {total_total:.4f}")
-            st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-         except Exception as e:
-            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
-       
-    else:
+    def process_file(uploaded_file):
+        if uploaded_file is not None:
+           df_uploaded = pd.read_excel(uploaded_file)
+           try:
+                total1 = df_uploaded.iloc[:6, 2].sum()
+                total2 = df_uploaded.iloc[6:, 2].sum()
+                total_ht = df_uploaded.iloc[:, 1].sum()
 
+                st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                total_total = total1 + total2
+                st.write(f"Le taux total est : {total_total:.4f}")
+                st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+            except Exception as e:
+                 st.error(f"Erreur lors du chargement des données : {e}")
 
+         choisir = st.selectbox("Sélectionnez une wilaya", WILAYAS)
 
-       def process_file(uploaded_file):
-          if uploaded_file is not None:
-              df_uploaded = pd.read_excel(uploaded_file)
-              try:
-                 total1 = df_uploaded.iloc[:6, 2].sum()
-                 total2 = df_uploaded.iloc[6:, 2].sum()
-                 total_ht = df_uploaded.iloc[:, 1].sum()
+         if choisir != 'choisir une wilaya':
+             if choisir == 'ALGER':
+                  st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
+                                   """, unsafe_allow_html=True)
 
-                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-                 total_total = total1 + total2
-                 st.write(f"Le taux total est : {total_total:.4f}")
-                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-              except Exception as e:
-                  st.error(f"Erreur lors du chargement des données : {e}")
-
-       choisir = st.selectbox("Sélectionnez une wilaya", WILAYAS)
-
-       if choisir in WILAYAS[1:]:  # Exclude the first option
-              uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
-              process_file(uploaded_file)
- 
+    # File uploader for Excel file
+            uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+            process_file(uploaded_file)
 with col2:
       # Afficher la carte avec st_folium
        st_folium(m, width=600, height=300)
