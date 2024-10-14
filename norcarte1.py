@@ -112,7 +112,7 @@ if choisir != 'choisir une wilaya':
         st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                       """, unsafe_allow_html=True)
 
-    uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
     if uploaded_file is not None:
         process_file(uploaded_file)
