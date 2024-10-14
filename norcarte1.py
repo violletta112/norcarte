@@ -160,7 +160,7 @@ with col1:
              except Exception as e:
                  st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
  
-           st.write('Veuillez sélectionner une wilaya valide.')
+           
         if choisir == 'BECHAR':
             # File uploader for Excel file
              uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
