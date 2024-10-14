@@ -87,35 +87,128 @@ with col1:
             st.error(f"Erreur lors du filtrage des données : {e}")
     # Handle wilayas selection
     choisir = st.selectbox('Choisir une wilaya', WILAYAS, key='wilaya_choice')
-
-
-def process_file(uploaded_file):
-        if uploaded_file is not None:
-           df_uploaded = pd.read_excel(uploaded_file)
-           try:
-                total1 = df_uploaded.iloc[:6, 2].sum()
-                total2 = df_uploaded.iloc[6:, 2].sum()
-                total_ht = df_uploaded.iloc[:, 1].sum()
-
-                st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
-                st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
-                total_total = total1 + total2
-                st.write(f"Le taux total est : {total_total:.4f}")
-                st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
-           except Exception as e:
-                 st.error(f"Erreur lors du chargement des données : {e}")
-
-choisir = st.selectbox("Sélectionnez une wilaya", WILAYAS)
-
-if choisir != 'choisir une wilaya':
-    if choisir == 'ALGER':
-        st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
+    if choisir != 'choisir une wilaya':
+         if choisir == 'ALGER':
+             st.markdown("""La wilaya d'Alger contient deux agences : <span style='color:red;'><strong>Bab Ezzouar</strong></span> et <span style='color:red;'><strong>El Achour</strong></span>. Vous pouvez sélectionner un fichier pour calculer les taux.
                       """, unsafe_allow_html=True)
-
-        uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+              
+        # File uploader for Excel file
+         uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
     
-    if uploaded_file is not None:
-        process_file(uploaded_file)
+         if uploaded_file is not None:
+        # Load the uploaded Excel file
+            df_uploaded = pd.read_excel(uploaded_file)
+            st.write(df_uploaded)  # Display first few rows of the DataFrame
+        
+         try:
+            total1 = df_uploaded.iloc[:6, 2].sum()
+            total2 = df_uploaded.iloc[6:, 2].sum()
+            total_ht = df_uploaded.iloc[:, 1].sum()
+            st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+            st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+            total_total = total1 + total2           
+            st.write(f"Le taux total est : {total_total:.4f}")
+            st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+         except Exception as e:
+            st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+       
+    else:
+        if choisir == 'CONSTANTINE':
+            # File uploader for Excel file
+             uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+    
+             if uploaded_file is not None:
+             # Load the uploaded Excel file
+              df_uploaded = pd.read_excel(uploaded_file)
+              #st.write(df_uploaded)  # Display first few rows of the DataFrame
+        
+             try:
+                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
+                 #st.write(df_wilaya)
+
+                 total1 = df_uploaded.iloc[:6, 2].sum()
+                 total2 = df_uploaded.iloc[6:, 2].sum()
+                 total_ht = df_uploaded.iloc[:, 1].sum()
+
+                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                 total_total = total1 + total2
+                 st.write(f"Le taux total est : {total_total:.4f}")
+                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+             except Exception as e:
+                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+
+        if choisir == 'ORAN':
+            # File uploader for Excel file
+             uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+    
+             if uploaded_file is not None:
+             # Load the uploaded Excel file
+              df_uploaded = pd.read_excel(uploaded_file)
+             st.write(df_uploaded)  # Display first few rows of the DataFrame
+        
+             try:
+                 total1 = df_uploaded.iloc[:6, 2].sum()
+                 total2 = df_uploaded.iloc[6:, 2].sum()
+                 total_ht = df_uploaded.iloc[:, 1].sum()
+
+                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                 total_total = total1 + total2
+                 st.write(f"Le taux total est : {total_total:.4f}")
+                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+             except Exception as e:
+                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+ 
+           st.write('Veuillez sélectionner une wilaya valide.')
+        if choisir == 'BECHAR':
+            # File uploader for Excel file
+             uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+    
+             if uploaded_file is not None:
+             # Load the uploaded Excel file
+              df_uploaded = pd.read_excel(uploaded_file)
+              #st.write(df_uploaded)  # Display first few rows of the DataFrame
+        
+             try:
+                 #df_wilaya = pd.read_excel('recapitulation.constantine.xlsx')
+                 #st.write(df_wilaya)
+
+                 total1 = df_uploaded.iloc[:6, 2].sum()
+                 total2 = df_uploaded.iloc[6:, 2].sum()
+                 total_ht = df_uploaded.iloc[:, 1].sum()
+
+                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                 total_total = total1 + total2
+                 st.write(f"Le taux total est : {total_total:.4f}")
+                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+             except Exception as e:
+                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+
+        if choisir == 'BECHAR':
+            # File uploader for Excel file
+             uploaded_file = st.file_uploader("Choisir un fichier Excel", type=["xlsx"])
+    
+             if uploaded_file is not None:
+             # Load the uploaded Excel file
+              df_uploaded = pd.read_excel(uploaded_file)
+             st.write(df_uploaded)  # Display first few rows of the DataFrame
+        
+             try:
+                 total1 = df_uploaded.iloc[:6, 2].sum()
+                 total2 = df_uploaded.iloc[6:, 2].sum()
+                 total_ht = df_uploaded.iloc[:, 1].sum()
+
+                 st.write(f"Le taux D'AMENAGEMENTS total est : {total1:.4f}")
+                 st.write(f"Le taux EQUIPEMENTS total est : {total2:.4f}")
+                 total_total = total1 + total2
+                 st.write(f"Le taux total est : {total_total:.4f}")
+                 st.write(f"Le total des MONTANT HT est : {total_ht:.4f}")
+             except Exception as e:
+                 st.error(f"Erreur lors du chargement des données pour la wilaya : {e}")
+ 
+
 else:
      # Afficher message si aucune wilaya n'est choisie 
      st.write('Veuillez sélectionner une wilaya valide.')
