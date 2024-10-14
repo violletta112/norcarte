@@ -64,8 +64,9 @@ with col1:
 
      # Right column for options based on director presence
 
-    choix = st.selectbox('Sélectionner une option', optionn)
-    
+    choix = st.selectbox('Choisir une option ', optionn)
+   st.markdown("La couleur verte désigne que l'agence a un directeur, "
+                    "et le rouge indique le cas contraire")
     if choix != 'Aucun choix':
         try:
             df_filtered = df[df.iloc[:, 3].str.strip() == ('oui' if choix == 'Avec directeur' else 'non')]
